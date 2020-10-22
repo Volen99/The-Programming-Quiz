@@ -1,0 +1,38 @@
+﻿@model EditCommentInputViewModel
+
+@using TheProgrammingQuiz.Web.ViewModels.Comments;
+
+@{
+    ViewData["Title"] = "Edit Comment";
+}
+
+    <html class="comment-background" lang="en">
+    <body class="comment-background">
+        <h2 style="color: darkgray">Edit Comment</h2>
+        <hr />
+        <div class="content" style="min-height: 500px">
+            <div class="row" style="margin-right: 0px">
+                <div class="col-md-4">
+                    <form role="form" asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="@Model.Name" class="control-label"></label>
+                            <input asp-for="@Model.Name" class="edit-comment-name form-control" />
+                            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Content" class="control-label"></label>
+                            <textarea asp-for="@Model.Content" class="comment-textarea form-control" rows="7"> </textarea>
+                            <span asp-validation-for="@Model.Content" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                            <a role="button" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-default">Back to Comments</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>

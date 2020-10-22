@@ -1,0 +1,93 @@
+﻿@model TheProgrammingQuiz.Web.ViewModels.ChatWindows.ChatWindowViewModel
+
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<ApplicationUser> userManager;
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+<link href="~/css/site.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
+<script src="~/js/Chat/chat.js"></script>
+<script src="~/js/Chat/popUp.js"></script>
+
+<div class="container">
+    <div class="row chat-window col-xs-5 col-md-3" id="chat_window_@Model.Id">
+        <div class="col-xs-12 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading top-bar">
+                    <div class="col-md-8 col-xs-8">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span> Chat - Love</h3>
+                    </div>
+                    <div class="col-md-4 col-xs-4" style="text-align: right;">
+                        <a href="#"><span id="minim_chat_window" class="glyphicon glyphicon-minus icon_minim"></span></a>
+                        <a href="#"><span class="glyphicon glyphicon-remove icon_close" data-id="chat_window_@Model.Id"></span></a>
+                    </div>
+                </div>
+
+                <div id="msg-container" class="panel-body msg_container_base">
+                    @foreach (var message in Model.Messages)
+                    {
+                        var messageUser = this.userManager.FindByIdAsync(message.UserId).Result.UserName;
+                        @if (messageUser == User.Identity.Name)
+                        {
+                            <div class="row msg_container base_sent">
+                                <div class="col-md-10 col-xs-10">
+                                    <div class="messages msg_sent">
+                                        <p id="new-message-sent-@message.Id">
+                                            @message.Text
+                                        </p>
+                                        <time id="time-sent-@message.Id" datetime="2009-11-13T20:00">@message.User.UserName • 51 min</time>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-xs-2 avatar">
+                                    <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row msg_container base_receive">
+                                <div class="col-md-2 col-xs-2 avatar">
+                                    <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class=" img-responsive ">
+                                </div>
+                                <div class="col-md-10 col-xs-10">
+                                    <div class="messages msg_receive">
+                                        <p id="new-message-receive-@message.Id">
+                                            @message.Text
+                                        </p>
+                                        <time id="time-receive-@message.Id" datetime="2009-11-13T20:00">@message.User.UserName • 51 min</time>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="btn-input" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                        <span class="input-group-btn">
+                            <button id="btn-chat" class="btn btn-primary btn-sm">Send</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-cog"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#" id="new_chat"><span class="glyphicon glyphicon-plus"></span> Novo</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-list"></span> Ver outras</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-remove"></span> Fechar Tudo</a></li>
+                <li class="divider"></li>
+                <li><a href="#"><span class="glyphicon glyphicon-eye-close"></span> Invisivel</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+

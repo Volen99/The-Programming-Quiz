@@ -1,0 +1,107 @@
+﻿@model TheProgrammingQuiz.Web.ViewModels.Profile.EditProfileInputModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<html class="edit-profile-body" lang="en">
+<body class="edit-profile-body">
+    <div class="container">
+        <div class="row center-block">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Your Profile</h4>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="yt-uix-inlineedit-form c4-module-editor-form about-metadata-editor-form branded-page-box clearfix" method="POST" asp-controller="Profile" asp-action="Edit">
+                                    @{
+                                        Model.About = Model?.ProfileTokens.About;
+                                        Model.Skills = Model?.ProfileTokens.Skills;
+                                    }
+                                    <input type="hidden" asp-for="Username" />
+                                    <div class="form-group">
+                                        <label asp-for="Wisdom"></label>
+                                        <input type="text" class="form-control" asp-for="Wisdom" value="@Model?.ProfileTokens.Wisdom" placeholder="knowledge speaks, but wisdom listens" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Skills"></label>
+                                        <textarea class="form-control" asp-for="Skills" rows="1" placeholder="java, javacript, artificial intelligence"></textarea>
+                                        <span asp-validation-for="Skills"></span>
+                                    </div>
+                                    <div id="about-form" class="form-group">
+                                        <label asp-for="About"></label>
+                                        <textarea class="form-control" asp-for="About" rows="2" placeholder="Add a bio"></textarea>
+                                        <span asp-validation-for="About"></span>
+                                    </div>
+                                    <table class="about-metadata-form-links-table">
+                                        <tbody class="about-metadata-form-links yt-ui-elementlist-list">
+                                            <tr class="yt-ui-elementlist-item">
+                                                <td class="item-title-cell">
+                                                    <span class="item-title-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty"><input class="yt-uix-form-input-text about-metadata-text-input item-title" name="custom_links_title" value="Facebook" placeholder="Link title (max 30 characters)" maxlength="30" readonly></span>
+                                                </td>
+                                                <td class="item-url-cell">
+                                                    <span class="item-url-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty yt-uix-form-input-fluid-container">
+                                                        <span class=" yt-uix-form-input-fluid">
+                                                            <input class="yt-uix-form-input-text about-metadata-text-input" asp-for="Facebook" value="@Model.Facebook" placeholder="URL">
+                                                        </span>
+                                                    </span>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="yt-ui-elementlist-item">
+                                                <td class="item-title-cell">
+                                                    <span class="item-title-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty"><input class="yt-uix-form-input-text about-metadata-text-input item-title" value="Twitter" placeholder="Link title (max 30 characters)" maxlength="30" readonly></span>
+                                                </td>
+                                                <td class="item-url-cell">
+                                                    <span class="item-url-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty yt-uix-form-input-fluid-container"><span class="yt-uix-form-input-fluid"><input class="yt-uix-form-input-text about-metadata-text-input" asp-for="Twitter" value="@Model.Twitter" placeholder="URL"></span></span>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="yt-ui-elementlist-item">
+                                                <td class="item-title-cell">
+                                                    <span class="item-title-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty"><input class="yt-uix-form-input-text about-metadata-text-input item-title" value="Youtube" placeholder="Link title (max 30 characters)" maxlength="30" readonly></span>
+                                                </td>
+                                                <td class="item-url-cell">
+                                                    <span class="item-url-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty yt-uix-form-input-fluid-container"><span class=" yt-uix-form-input-fluid"><input class="yt-uix-form-input-text about-metadata-text-input" asp-for="Youtube" value="@Model.Youtube" placeholder="URL"></span></span>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="yt-ui-elementlist-item">
+                                                <td class="item-title-cell">
+                                                    <span class="item-title-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty"><input class="yt-uix-form-input-text about-metadata-text-input item-title" value="GitHub" placeholder="Link title (max 30 characters)" maxlength="30" readonly></span>
+                                                </td>
+                                                <td class="item-url-cell">
+                                                    <span class="item-url-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty yt-uix-form-input-fluid-container"><span class=" yt-uix-form-input-fluid"><input class="yt-uix-form-input-text about-metadata-text-input" asp-for="GitHub" value="@Model.GitHub" placeholder="URL"></span></span>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="yt-ui-elementlist-item">
+                                                <td class="item-title-cell">
+                                                    <span class="item-title-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty"><input class="yt-uix-form-input-text about-metadata-text-input item-title" value="Instagram" placeholder="Link title (max 30 characters)" maxlength="30" readonly></span>
+                                                </td>
+                                                <td class="item-url-cell">
+                                                    <span class="item-url-container yt-uix-form-input-container yt-uix-form-input-text-container yt-uix-form-input-non-empty yt-uix-form-input-fluid-container"><span class=" yt-uix-form-input-fluid"><input class="yt-uix-form-input-text about-metadata-text-input" asp-for="Instagram" value="@Model.Instagram" placeholder="URL"></span></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary" asp-controller="Profile" asp-action="Edit">Done</button>
+                                        <div class="btn btn-primary" style="margin-left: 9px; margin-top: 9px" onclick="history.back()">Back</div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

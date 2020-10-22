@@ -1,0 +1,364 @@
+﻿@model TheProgrammingQuiz.Web.ViewModels.Comments.CommentViewModelComments
+
+@{ 
+    ViewData["Title"] = "Comments";
+}
+
+@using TheProgrammingQuiz.Data.Models;
+@using Microsoft.AspNetCore.Identity;
+
+@inject UserManager<ApplicationUser> userManager;
+@inject TheProgrammingQuiz.Services.Data.Files.IFileService fileSerivce;
+@inject TheProgrammingQuiz.Services.IUserQuizTokensService userQuizTokensService
+
+<script src="~/js/vote.js"></script>
+
+<html id="comment-html" lang="en">
+<body class="comment-background">
+    <script src="~/js/comments.js"></script>
+    <script src="~/js/begToRegister.js"></script>
+    <div class="content">
+        <h1 class="text-center" style="color: #cacaca;">Comments</h1>
+        <hr />
+
+        @if (this.TempData["InfoMessage"] != null)
+        {
+            <div role="alert" class="alert alert-success alert-dismissible">
+                <a class="close" href="#" data-dismiss="alert" aria-label="close" title="close">&times;</a>
+                @this.TempData["InfoMessage"]
+            </div>
+        }
+
+        <a role="button" class="add-comment btn btn-primary" asp-controller="Comment" asp-action="Create">Add Comment</a>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1" id="logout">
+                    @{
+                        var comments = Model.Comments.Where(c => c.ParentId == null);
+                    }
+                    @foreach (var comment in comments)
+                    {
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var voteStylesParent = Model.UserCommentsVoteStyes.FirstOrDefault(x => x.CommentId == comment.Id);
+                            if (voteStylesParent != null)
+                            {
+                                <style>
+                                    #comment-thumbs-up-@comment.Id {
+                                        color: @voteStylesParent.CommentLiked;
+                                    }
+                                    
+                                    #comment-thumbs-down-@comment.Id {
+                                        color: @voteStylesParent.CommentDisliked;
+                                    }
+                                </style>
+                             }
+                        }
+
+                        var userQuizTokens = this.userQuizTokensService.GetById<TheProgrammingQuiz.Web.ViewModels.UsersQuizTokens.UserQuizTokenViewModel>(comment.User.UserQuizTokenId);
+                        var parentAvatarUrl = this.fileSerivce.GetByUserId(comment.UserId).ImageUrl;
+                        var userRank = Model.StandingsSorted.FindIndex(n => n.UserName == comment.Name) + 1;
+
+                        var marginLeft = 11.7;
+                        <div class="comment-tabs">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="comments-logout">
+                                    <ul class="media-list">
+                                        @{
+                                            var parentData = new Dictionary<string, string>
+                                                                                                                                                                                            {
+                                            {"Username", comment.Name }
+                                        };
+                                        }
+                                        <li class="media">
+                                            <a class="comment-profile-container pull-left" asp-area="" asp-controller="Profile" asp-action="Index" asp-all-route-data="@parentData" style="text-decoration: none;">
+                                                <img class="media-object img-circle" src="@parentAvatarUrl" alt="Profile picture">
+                                                <div class="comment-rank">
+                                                    Rank: @userRank/@Model.StandingsSorted.Count
+                                                </div>
+                                                <div>
+                                                    Best: @userQuizTokens.MaximumSolved
+                                                </div>
+                                                <div>
+                                                    Best Streak: @userQuizTokens.BestStreak
+                                                </div>
+                                            </a>
+
+                                            <div class="media-body">
+                                                <div class="well well-lg" style="max-width: 95%">
+                                                    <h4 class="media-heading reviews">
+                                                        <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index" asp-all-route-data="@parentData" title="Profile">@comment.Name</a>
+                                                    </h4>
+                                                    <ul class="media-date text-uppercase reviews list-inline">
+                                                        <li class="fa fa-calendar"></li>
+                                                        <li>@comment.CreatedOn</li>
+
+                                                        <li class="fa fa-exchange"></li>
+                                                        <li>@comment.ModifiedOn</li>
+                                                    </ul>
+                                                    <p class="media-comment">
+                                                        @comment.Content
+                                                    </p>
+                                                    <a id="reply" class="btn btn-info btn-circle text-uppercase" onclick="showAddCommentForm(@comment.Id)">
+                                                        <span class="glyphicon glyphicon-share-alt"></span> Reply
+                                                    </a>
+                                                    @{
+                                                        var parentCommentReplies = Model.Replies.Where(c => c.ParentId == comment.Id);
+                                                    }
+                                                    <a id="main-comment-@comment.Id" class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" href="#reply-comment-id-@comment.Id"><span class="glyphicon glyphicon-comment"></span> <span class="replies-count">@parentCommentReplies?.Count()</span> replies</a>
+                                                    @if (this.User.Identity.IsAuthenticated)
+                                                    {
+                                                        var loggedInUser = await this.userManager.FindByNameAsync(this.User.Identity.Name);
+                                                        if (this.User.IsInRole("Admin") || loggedInUser.Id == comment.UserId)
+                                                        {
+                                                            <a role="button" class="btn btn-primary" asp-controller="Comment" asp-action="Edit" asp-route-id="@comment.Id">Edit</a>
+                                                            <a role="button" class="btn btn-primary" asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+                                                        }
+                                                    }
+                                                </div>
+                                                @*VOTE*@
+                                                <div class="vote-container-comments">
+                                                    <div class="text-muted zz ml-3">
+                                                        <form role="form" id="commentForm-@comment.Id" method="post"></form>
+                                                        <div>
+                                                            <a onclick="sendVote(@comment.Id, true, 'comment')">
+                                                                <i>
+                                                                    <span id="comment-thumbs-up-@comment.Id" class="fa fa-thumbs-up"></span>
+                                                                </i>
+                                                            </a>
+                                                        </div>
+                                                        <div id="comment-votes-count-@comment.Id" class="center-block">@comment.VotesCount</div>
+                                                        <div>
+                                                            <a onclick="sendVote(@comment.Id, false, 'comment')">
+                                                                <i>
+                                                                    <span id="comment-thumbs-down-@comment.Id" class="fa fa-thumbs-down"></span>
+                                                                </i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @{
+                                                async Task DisplayComments(int parrentId)
+                                                {
+                                                    var replies = Model.Replies.Where(c => c.ParentId == parrentId);
+
+                                                    if (replies == null || replies.Any() == false)
+                                                    {
+                                                        return;
+                                                    }
+
+                                                    marginLeft += 1;
+                                                    <div class="collapse" id="reply-comment-id-@parrentId">
+                                                        @foreach (var reply in replies)
+                                                        {
+                                                            if (this.User.Identity.IsAuthenticated)
+                                                            {
+                                                                var voteStylesChild = Model.UserCommentsVoteStyes.FirstOrDefault(x => x.CommentId == reply.Id);
+                                                                if (voteStylesChild != null)
+                                                                {
+                                                                    <style>
+                                                                     #comment-thumbs-up-@reply.Id {
+                                                                         color: @voteStylesChild.CommentLiked;
+                                                                     }
+
+                                                                     #comment-thumbs-down-@reply.Id {
+                                                                         color: @voteStylesChild.CommentDisliked;
+                                                                     }
+                                                                    </style>
+                                                                }
+                                                            }
+
+                                                            var replyData = new Dictionary<string, string>
+                                                                                                                                                                                                                                                                                                                                                            {
+                                                            {"Username", reply.Name }
+                                                        };
+
+                                                            var replyUserQuizTokens = this.userQuizTokensService.GetById<TheProgrammingQuiz.Web.ViewModels.UsersQuizTokens.UserQuizTokenViewModel>(reply.User.UserQuizTokenId);
+                                                            var userRank = Model.StandingsSorted.FindIndex(n => n.UserName == reply.Name) + 1;
+
+                                                            var childAvatarUrl = this.fileSerivce.GetByUserId(reply.UserId).ImageUrl;
+
+                                                            <ul class="media-list">
+                                                                <li class="media media-replied">
+                                                                    <a class="comment-profile-container pull-left" asp-area="" asp-controller="Profile" asp-action="Index" asp-all-route-data="@replyData" style="margin-left: @(marginLeft)%">
+                                                                        <img class="media-object img-circle" src="@childAvatarUrl" alt="Profile picture">
+                                                                        <div class="comment-rank">
+                                                                            Rank: @userRank/@Model.StandingsSorted.Count
+                                                                        </div>
+                                                                        <div>
+                                                                            Best: @replyUserQuizTokens.MaximumSolved
+                                                                        </div>
+                                                                        <div>
+                                                                            Best Streak: @replyUserQuizTokens.BestStreak
+                                                                        </div>
+                                                                    </a>
+                                                                    <div class="media-body">
+                                                                        <div class="well well-lg" style="max-width: 95%">
+                                                                            <h4 class="media-heading reviews">
+                                                                                <span class="glyphicon glyphicon-share-alt"></span>
+                                                                                <a class="nav-link text-dark" asp-area="" asp-controller="Profile" asp-action="Index" asp-all-route-data="@replyData" title="Profile">@reply.Name</a>
+                                                                            </h4>
+                                                                            <ul class="media-date text-uppercase reviews list-inline">
+                                                                                <li class="fa fa-calendar"></li>
+                                                                                <li>@reply.CreatedOn</li>
+
+                                                                                <li class="fa fa-exchange"></li>
+                                                                                <li>@comment.ModifiedOn</li>
+                                                                            </ul>
+                                                                            <p class="media-comment">
+                                                                                @Html.Raw(reply.Content)
+                                                                            </p>
+                                                                            @{
+                                                                                var parentReplies = Model.Replies.Where(c => c.ParentId == reply.Id);
+                                                                            }
+                                                                            <a class="btn btn-info btn-circle text-uppercase" id="reply-@reply.Id" onclick="showAddCommentForm(@reply.Id)"><span class="glyphicon glyphicon-share-alt"></span> Reply</a>
+                                                                            <a class="btn btn-warning btn-circle text-uppercase" data-toggle="collapse" href="#reply-comment-id-@reply.Id"><span class="glyphicon glyphicon-comment"></span> <span class="replies-count">@parentReplies?.Count()</span> replies</a>
+                                                                            @if (this.User.Identity.IsAuthenticated)
+                                                                            {
+                                                                                var loggedInUser = await this.userManager.FindByNameAsync(this.User.Identity.Name);
+                                                                                if (this.User.IsInRole("Admin") || loggedInUser.Id == reply.UserId)
+                                                                                {
+                                                                                    <a role="button" class="btn btn-primary" asp-controller="Comment" asp-action="Edit" asp-route-id="@reply.Id">Edit</a>
+                                                                                    <a role="button" class="btn btn-primary" asp-controller="Comment" asp-action="Delete" asp-route-id="@reply.Id">Delete</a>
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                        <div class="vote-container-comments">
+                                                                            <div class="text-muted zz ml-3">
+                                                                                <form id="commentForm-@reply.Id" method="post"></form>
+                                                                                <div>
+                                                                                    <a onclick="sendVote(@reply.Id, true, 'comment')">
+                                                                                        <i>
+                                                                                            <span id="comment-thumbs-up-@reply.Id" class="fa fa-thumbs-up"></span>
+                                                                                        </i>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div id="comment-votes-count-@reply.Id" class="comment-votes-count center-block">@reply.VotesCount</div>
+                                                                                <div>
+                                                                                    <a onclick="sendVote(@reply.Id, false, 'comment')">
+                                                                                        <i>
+                                                                                            <span id="comment-thumbs-down-@reply.Id" class="fa fa-thumbs-down"></span>
+                                                                                        </i>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @{
+                                                                        DisplayComments(reply.Id);
+                                                                    }
+                                                                </li>
+                                                            </ul>
+                                                        }
+                                                    </div>
+                                                }
+                                            }
+
+                                            @{
+                                                DisplayComments(comment.Id);
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            <nav class="nav-comment-paginton">
+                <ul class="pagination justify-content-center">
+                    @if (this.Model.CurrentPage == 1)
+                    {
+                        <li class="page-item disabled">
+                            <a role="button" class="page-link" href="#">Previous</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a role="button" class="page-link" asp-route="comment" asp-route-page="@(this.Model.CurrentPage - 1)">Previous</a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= this.Model.PagesCount; i++)
+                    {
+                        var active = i == this.Model.CurrentPage ? "active" : string.Empty;
+                        <li class="page-item @active">
+                            <a role="button" class="page-link" asp-route="comment" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+
+                    @if (this.Model.CurrentPage == this.Model.PagesCount)
+                    {
+                        <li class="page-item disabled">
+                            <a role="button" class="page-link" href="#">Next</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a role="button" class="page-link" asp-route="comment" asp-route-page="@(this.Model.CurrentPage + 1)">Next</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+
+        <button type="button" id="navigator-top" onclick="topFunction()" title="Go to top">Top</button>
+
+        <script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            tinymce.init({
+                selector: "textarea",
+                plugins: ["image paste table link code media"]
+            });
+        </script>
+        <div>
+            <form role="form" asp-controller="Comment" asp-action="Create" method="post" id="AddCommentForm" style="display: none">
+                <input type="hidden" name="ParentId" value="0" /> @*hidden form that we put value from javascript*@
+                <div>
+                    @if (User.Identity.IsAuthenticated == false)
+                    {
+                        <label for="Name"></label>
+                        <input name="Name" id="Name" class="form-control">
+                    }
+                    else
+                    {
+                        <label for="Name"></label>
+                        <input type="hidden" name="Name" id="Name" value="@this.User.Identity.Name" class="form-control">
+                    }
+                </div>
+                <div>
+                    <label for="Content"></label>
+                    <textarea name="Content" id="Content" class="form-control"></textarea>
+                </div>
+                <div>
+                    <input type="submit" class="btn btn-primary" value="Submit" />
+                    <a role="button" asp-controller="Comment" asp-action="Index" class="btn btn-default">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    @section Scripts {
+        <script>
+            function showAddCommentForm(parentId) {
+                let isAnonymousUser = document.getElementById("username-current").value === "";
+                if (isAnonymousUser) {
+                    begToRegister();
+                    return;
+                }
+                $("#AddCommentForm input[name='ParentId']").val(parentId);
+                $("#AddCommentForm").show();
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $("#AddCommentForm").offset().top
+                }, 1000);
+            }
+        </script>
+    }
+</body>
+</html>
