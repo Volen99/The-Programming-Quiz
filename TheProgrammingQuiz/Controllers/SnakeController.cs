@@ -34,7 +34,7 @@ namespace TheProgrammingQuiz.Web.Controllers
                 if (userTokens.IsSnakeUnlocked == false)
                 {
                     TempData["wasRedirected"] = true;
-                    return RedirectToAction("Index", "Hacker"); ;
+                    return RedirectToAction("Index", "Hacker");
                 }
 
                 await this.userQuizTokensService.SetSnakeStatus(user.UserQuizTokenId, false);
