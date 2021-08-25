@@ -101,7 +101,7 @@ namespace TheProgrammingQuiz.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender>(x => new SendGridEmailSender("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"));
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender("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")); // TODO: put it as Environment Variable
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IVotesService<VoteComment>, VotesCommentService>(); // lol I am so lucky xD
             services.AddTransient<IVotesService<VoteQuestion>, VotesQuestionService>();
