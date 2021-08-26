@@ -8,8 +8,6 @@
     using TheProgrammingQuiz.Data.Models;
     using TheProgrammingQuiz.Web.ViewModels.Votes;
     using TheProgrammingQuiz.Services.Data;
-    using TheProgrammingQuiz.Web.ViewModels.Comments;
-    using TheProgrammingQuiz.Web.ViewModels.Questions;
     using TheProgrammingQuiz.Services.Data.Styles;
     using TheProgrammingQuiz.Web.ViewModels.Styles;
 
