@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using TheProgrammingQuiz.Data.Common.Models;
 
 namespace TheProgrammingQuiz.Data.Models.Social

@@ -25,14 +25,6 @@ namespace TheProgrammingQuiz.Web.Controllers
         // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
-            // var result = await this.userManager.CreateAsync(new ApplicationUser
-            // {
-            //     UserName = "Volencho99",
-            //     Email = "volen1999@gmail.com",
-            //     UserQuizTokenId = 1
-            // }, "lovechess7"); ;
-
-
             var user = await this.userManager.GetUserAsync(this.User);
             var result = await this.roleManager.CreateAsync(new ApplicationRole
             {
@@ -40,34 +32,6 @@ namespace TheProgrammingQuiz.Web.Controllers
             });
 
             await this.userManager.AddToRoleAsync(user, "Admin");
-
-            // var result = await this.roleManager.CreateAsync(new IdentityRole
-            // {
-            //     Name = "Admin"
-            // });
-            // 
-            // await userManager.AddToRoleAsync(user, "Admin");
-
-            // var user = await this.userManager.GetUserAsync(this.User);
-            // var result = await this.userManager.AddClaimAsync(user, new Claim(ClaimTypes.Gender, "female"));
-
-            //var user = await this.userManager.GetUserAsync(this.User);
-            //var result = await this.userManager.AddClaimAsync(user, new Claim("Key", JsonConvert.SerializeObject(db.Questions.ToList()[700])));
-
-            // return Json(this.User.Claims.FirstOrDefault(x => x.Type == x.Type));
-
-            //var result = await this.signInManager.PasswordSignInAsync("Volencho99", "lovechess7", true, true);
-
-            //var user = await this.userManager.FindByEmailAsync("volen1999@gmail.com");
-            //var token = this.db.UserQuizTokens.FirstOrDefault();
-            //token.Lifes = 5;
-            //token.MaximumSolved = 5;
-            //user.UserQuizToken = token;
-            //await this.db.SaveChangesAsync();
-
-            // var user = await this.userManager.FindByNameAsync(User.Identity.Name);
-            // user.UserQuizTokenId = 1;
-            // this.db.SaveChanges();
 
             return Json(result);
         }

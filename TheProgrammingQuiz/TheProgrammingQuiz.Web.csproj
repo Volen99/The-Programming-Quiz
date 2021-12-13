@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>aspnet-TheProgrammingQuiz-F2203973-5154-4978-9EA4-82805F119FD8</UserSecretsId>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

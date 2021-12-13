@@ -17,6 +17,7 @@ namespace TheProgrammingQuiz.Services.Data.Social
         {
             this.socialLinksRepository = socialLinksRepository;
         }
+
         public async Task<SocialLinks> CreateAsync(string facebookUrl, string twitterUrl, string youtubeUrl, string gitHubUrl, string instagramUrl, string userId)
         {
             var newSocialLinks = new SocialLinks

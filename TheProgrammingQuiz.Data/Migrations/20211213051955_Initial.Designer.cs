@@ -10,14 +10,14 @@ using TheProgrammingQuiz.Data;
 namespace TheProgrammingQuiz.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200525152630_UserReferenceEdit")]
-    partial class UserReferenceEdit
+    [Migration("20211213051955_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -362,8 +362,8 @@ namespace TheProgrammingQuiz.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(15)")
-                        .HasMaxLength(15);
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");

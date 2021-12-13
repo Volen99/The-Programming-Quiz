@@ -157,20 +157,21 @@ namespace TheProgrammingQuiz.Web.Areas.Identity.Pages.Account
                     UserQuizTokenId = userQuizToken.Id,
                 };
 
-                await this.socialLinksService.CreateAsync("#", "#", "#", "#", "#", user.Id);
-                await this.profileTokensService.CreateAsync("Programming is life", string.Empty, string.Empty, string.Empty, user.Id);
-
-                var fileName = Path.GetFileName("default-avatar.png");
-                var filePath = Path.Combine(this.environment.WebRootPath + @"/images/users_images", fileName);
-
-                var fileNew = await this.fileService.CreateAsync(this.environment.WebRootPath, $@"/images/users_images/" + fileName, 0, user.Id);
-
-                await this.userPersonalStylesService.CreateAsync(user.Id);
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await this.socialLinksService.CreateAsync("#", "#", "#", "#", "#", user.Id);
+                    await this.profileTokensService.CreateAsync("Programming is life", string.Empty, string.Empty, string.Empty, user.Id);
+
+                    var fileName = Path.GetFileName("default-avatar.png");
+                    var filePath = Path.Combine(this.environment.WebRootPath + @"/images/users_images", fileName);
+
+                    var fileNew = await this.fileService.CreateAsync(this.environment.WebRootPath, $@"/images/users_images/" + fileName, 0, user.Id);
+
+                    await this.userPersonalStylesService.CreateAsync(user.Id);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

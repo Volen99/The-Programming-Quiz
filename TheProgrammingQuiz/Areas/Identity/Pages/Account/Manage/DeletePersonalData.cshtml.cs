@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using TheProgrammingQuiz.Data;
-using TheProgrammingQuiz.Data.Migrations;
+/*using TheProgrammingQuiz.Data.Migrations;*/
 using TheProgrammingQuiz.Data.Models;
 using TheProgrammingQuiz.Services.Data.Styles;
 
