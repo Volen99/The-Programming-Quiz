@@ -1472,7 +1472,7 @@ VALUES
 
 (N'Which of the following is NOT an HTML attribute? 🤔', 'src', 'href', 'alt', 'a', 'a', 0, 0, 0, 0),
 
-(N'What is 𝘀𝗿𝗰 folder?', '"source", files to build and develop the project', '"static" files to build and develop the project', '"source" files to use for the project', '"single" files to build and develop the project', '"source" files to build and develop the project', 0, 0, 0, 0),
+(N'What is 𝘀𝗿𝗰 folder?', '"source" files to build and develop the project', '"static" files to build and develop the project', '"source" files to use for the project', '"single" files to build and develop the project', '"source" files to build and develop the project', 0, 0, 0, 0),
 
 (N'What is 𝗱𝗶𝘀𝘁 folder?', '"distribution", the compiled code/library. The files meant for saving and storing are usually located here', '"distribution", the compiled code/library. The files meant for production or public use are usually located here', '"distribution", the compiled code/library. The files meant for development or private use are usually located here', 'All are false', 'distribution", the compiled code/library. The files meant for production or public use are usually located here', 0, 0, 0, 0),
 
