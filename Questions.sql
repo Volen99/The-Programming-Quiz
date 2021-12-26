@@ -1652,7 +1652,7 @@ VALUES
  
 (N'Which of the following is the 𝐏𝐨𝐬𝐭𝐢𝐧𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '++x', 'x++', '++', '+=', 'x++', 0, 0, 0, 0),
  
-(N'Which of the following is the 𝐏𝐫𝐞𝐢𝐧𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '+=', '++', '++x', '++x', '++x', 0, 0, 0, 0),
+(N'Which of the following is the 𝐏𝐫𝐞𝐢𝐧𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '+=', '++', '++x', 'x++', '++x', 0, 0, 0, 0),
  
 (N'Which of the following is the 𝐏𝐨𝐬𝐭𝐝𝐞𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '--', '--x', 'x--', '-=', 'x--', 0, 0, 0, 0),
  
