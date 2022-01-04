@@ -678,7 +678,7 @@ VALUES
 
 (N'Which of the following pattern provides a way to evaluate language grammar or expression? 🎌', 'Interpreter Pattern', 'Command Pattern', 'Chain of Responsibility Pattern', 'Observer Pattern', 'Interpreter Pattern', 0, 0, 0, 0),
 
-('In which of the following pattern, a null object replaces check of NULL object instance? 🗅', 'Template Pattern', 'Factory Pattern', 'State Pattern', 'Null Object Pattern', 'Null Object Pattern', 0, 0, 0, 0),
+(N'In which of the following pattern, a null object replaces check of NULL object instance? 🗅', 'Template Pattern', 'Factory Pattern', 'State Pattern', 'Null Object Pattern', 'Null Object Pattern', 0, 0, 0, 0),
 
 (N'Cookies are stored ___ 🍪', 'on the server', 'in HTML', 'on the client', 'None of these', 'on the client', 0, 0, 0, 0),
 
