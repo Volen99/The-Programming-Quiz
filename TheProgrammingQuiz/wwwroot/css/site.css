@@ -880,7 +880,7 @@ a {
 .streak-data-style {
     font-family: 'Roboto Bold', sans-serif;
     font-size: 18px;
-    color: #fd21fa;
+    color: #14bbc8;
     background-color: #003F84;
 }
 
@@ -1883,7 +1883,7 @@ col-md-2, .col-md-10 {
     font-size: 1rem;
     line-height: 1.33333;
     font-weight: 400;
-    color: chocolate;
+    color: wheat;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

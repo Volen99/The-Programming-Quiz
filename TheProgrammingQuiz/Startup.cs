@@ -20,13 +20,13 @@ using TheProgrammingQuiz.Data.Common;
 using TheProgrammingQuiz.Services.Data;
 using TheProgrammingQuiz.Services.Messaging;
 using TheProgrammingQuiz.Services;
-using TheProgrammingQuiz.Web.Hubs;
 using TheProgrammingQuiz.Services.Data.Chat;
 using TheProgrammingQuiz.Services.Data.Timer;
 using TheProgrammingQuiz.Services.Data.Files;
 using TheProgrammingQuiz.Services.Data.Social;
 using TheProgrammingQuiz.Services.Audios;
 using TheProgrammingQuiz.Services.Data.Styles;
+using Microsoft.Net.Http.Headers;
 
 namespace TheProgrammingQuiz.Web
 {
@@ -69,7 +69,7 @@ namespace TheProgrammingQuiz.Web
                 options =>
                 {
                     options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                    options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
                 });
 
             services.AddControllersWithViews(options =>
@@ -170,6 +170,24 @@ namespace TheProgrammingQuiz.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    // Check if the file is hashed, e.g. [filename].[20 chars hash].js
+                    if (ctx.File.Name.Length > 24 && ctx.File.Name[^24] == '.' && ctx.File.Name.EndsWith(".js", StringComparison.InvariantCulture))
+                    {
+                        const int durationInSeconds = 60 * 60 * 24 * 14;  // 14 days
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public, immutable, max-age=" + durationInSeconds;
+                    }
+                    else if (ctx.File.Name.EndsWith(".svg", StringComparison.InvariantCulture) || ctx.File.Name.EndsWith(".png", StringComparison.InvariantCulture))
+                    {
+                        const int durationInSeconds = 60 * 60;  // 1 hour
+                        ctx.Context.Response.Headers[HeaderNames.CacheControl] = "public,max-age=" + durationInSeconds;
+                    }
+                },
+            });
+
             app.UseCookiePolicy();
 
             app.UseRouting();
@@ -178,8 +196,6 @@ namespace TheProgrammingQuiz.Web
             app.UseAuthorization();
 
             app.UseSession();
-
-            
 
             app.UseEndpoints(
                 endpoints =>
