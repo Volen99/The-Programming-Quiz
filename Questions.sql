@@ -678,7 +678,7 @@ VALUES
 
 (N'Which of the following pattern provides a way to evaluate language grammar or expression? 🎌', 'Interpreter Pattern', 'Command Pattern', 'Chain of Responsibility Pattern', 'Observer Pattern', 'Interpreter Pattern', 0, 0, 0, 0),
 
-('In which of the following pattern, a null object replaces check of NULL object instance? 🗅', 'Template Pattern', 'Factory Pattern', 'State Pattern', 'Null Object Pattern', 'Null Object Pattern', 0, 0, 0, 0),
+(N'In which of the following pattern, a null object replaces check of NULL object instance? 🗅', 'Template Pattern', 'Factory Pattern', 'State Pattern', 'Null Object Pattern', 'Null Object Pattern', 0, 0, 0, 0),
 
 (N'Cookies are stored ___ 🍪', 'on the server', 'in HTML', 'on the client', 'None of these', 'on the client', 0, 0, 0, 0),
 
@@ -1472,7 +1472,7 @@ VALUES
 
 (N'Which of the following is NOT an HTML attribute? 🤔', 'src', 'href', 'alt', 'a', 'a', 0, 0, 0, 0),
 
-(N'What is 𝘀𝗿𝗰 folder?', '"source", files to build and develop the project', '"static" files to build and develop the project', '"source" files to use for the project', '"single" files to build and develop the project', '"source" files to build and develop the project', 0, 0, 0, 0),
+(N'What is 𝘀𝗿𝗰 folder?', '"source" files to build and develop the project', '"static" files to build and develop the project', '"source" files to use for the project', '"single" files to build and develop the project', '"source" files to build and develop the project', 0, 0, 0, 0),
 
 (N'What is 𝗱𝗶𝘀𝘁 folder?', '"distribution", the compiled code/library. The files meant for saving and storing are usually located here', '"distribution", the compiled code/library. The files meant for production or public use are usually located here', '"distribution", the compiled code/library. The files meant for development or private use are usually located here', 'All are false', 'distribution", the compiled code/library. The files meant for production or public use are usually located here', 0, 0, 0, 0),
 
@@ -1652,7 +1652,7 @@ VALUES
  
 (N'Which of the following is the 𝐏𝐨𝐬𝐭𝐢𝐧𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '++x', 'x++', '++', '+=', 'x++', 0, 0, 0, 0),
  
-(N'Which of the following is the 𝐏𝐫𝐞𝐢𝐧𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '+=', '++', '++x', '++x', '++x', 0, 0, 0, 0),
+(N'Which of the following is the 𝐏𝐫𝐞𝐢𝐧𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '+=', '++', '++x', 'x++', '++x', 0, 0, 0, 0),
  
 (N'Which of the following is the 𝐏𝐨𝐬𝐭𝐝𝐞𝐜𝐫𝐞𝐦𝐞𝐧𝐭 operator?', '--', '--x', 'x--', '-=', 'x--', 0, 0, 0, 0),
  
